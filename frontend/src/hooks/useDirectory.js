@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { fetchDirectoryContents, initiateFileDownload } from "../services/apiService";
+import { getDirectoryContents, initiateFileDownload } from "../services/apiService";
 
 /**
  * Custom React Hook encapsulating the entirety of the directory 
@@ -19,12 +19,12 @@ export function useDirectory() {
   useEffect(() => {
     let isMounted = true; // Prevents memory leak updates on unmounted component
 
-    async function fetchDirectoryNetworkCall() {
+    async function getDirectoryNetworkCall() {
       setLoading(true);
       setError(null);
 
       try {
-        const data = await fetchDirectoryContents(currentDirectoryPath);
+        const data = await getDirectoryContents(currentDirectoryPath);
         if (!isMounted) return; // Stop if component unmounted while fetching
 
         if (!data || !data.items) {
@@ -33,7 +33,7 @@ export function useDirectory() {
         setDirectoryItems(data.items);
       } catch (err) {
         if (!isMounted) return; // Stop if component unmounted
-        console.error("[useDirectory] fetchDirectoryNetworkCall error:", err);
+        console.error("[useDirectory] getDirectoryNetworkCall error:", err);
         setError(err.message || "Failed to load directory.");
         setDirectoryItems([]);
       } finally {
@@ -41,7 +41,7 @@ export function useDirectory() {
       }
     }
 
-    fetchDirectoryNetworkCall();
+    getDirectoryNetworkCall();
 
     return () => {
       isMounted = false; // Cleanup function fires on unmount

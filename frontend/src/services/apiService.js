@@ -84,7 +84,7 @@ async function fetchWithRetry(url, options = {}, retries = MAX_RETRIES) {
 }
 
 // ── API: List folder contents ─────────────────────────────────────────
-export async function fetchDirectoryContents(path) {
+export async function getDirectoryContents(path) {
   try {
     const url = `${BASE_URL}/api/list?path=${encodeURIComponent(path)}`;
     const response = await fetchWithRetry(url);
@@ -103,13 +103,13 @@ export async function fetchDirectoryContents(path) {
 
     return data;
   } catch (err) {
-    console.error("[fetchDirectoryContents] Error:", err);
+    console.error("[getDirectoryContents] Error:", err);
     throw err;
   }
 }
 
 // ── API: Read file contents ───────────────────────────────────────────
-export async function fetchFileContent(path) {
+export async function getFileContent(path) {
   try {
     const url = `${BASE_URL}/api/file?path=${encodeURIComponent(path)}`;
     const response = await fetchWithRetry(url);
@@ -122,12 +122,12 @@ export async function fetchFileContent(path) {
 
     const text = await response.text();
     if (!text) {
-      console.warn("[fetchFileContent] Warning: file is empty");
+      console.warn("[getFileContent] Warning: file is empty");
     }
 
     return text;
   } catch (err) {
-    console.error("[fetchFileContent] Error:", err);
+    console.error("[getFileContent] Error:", err);
     throw err;
   }
 }

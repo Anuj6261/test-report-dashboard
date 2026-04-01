@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchFileContent } from "../../services/apiService";
+import { getFileContent } from "../../services/apiService";
 import { formatFileSize } from "../../utils/helpers";
 import { FileText } from "lucide-react";
 import "./FileModal.css";
@@ -24,7 +24,7 @@ function FileModal({ file, onClose }) {
           throw new Error("Cannot open file: The file path is missing.");
         }
 
-        const text = await fetchFileContent(file.path);
+        const text = await getFileContent(file.path);
         if (!isMounted) return;
 
         if (!text || typeof text !== "string") {
