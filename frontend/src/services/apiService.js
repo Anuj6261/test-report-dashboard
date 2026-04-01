@@ -151,11 +151,13 @@ export function initiateFileDownload(path) {
     a.download = ""; // Let the server set the filename
     document.body.appendChild(a);
 
-    a.click();
-
-    // Cleanup
-    document.body.removeChild(a);
-    console.log("[download] Triggered:", path);
+    try {
+      a.click();
+    } finally {
+      // Guaranteed DOM cleanup even if browser explicitly blocks simulated click
+      document.body.removeChild(a);
+      console.log("[download] Triggered & cleaned up:", path);
+    }
   } catch (err) {
     console.error("[download] Error:", err);
   }

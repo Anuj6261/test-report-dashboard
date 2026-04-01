@@ -1,4 +1,6 @@
-/* Reset some default browser styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Premium Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,32 +8,57 @@
 }
 
 body {
-  font-family: sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f8fafc;
+  color: #1a202c;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* The full-page wrapper */
+/* Base structural wrapper */
 .app-container {
   display: flex;
-  flex-direction: column;   /* Stack TopBar on top, main content below */
-  min-height: 100vh;        /* Fill the full browser window height */
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* The area below the TopBar */
 .main-content {
-  padding: 24px;
-  flex: 1;                  /* Take up all remaining vertical space */
+  padding: 32px 40px;
+  flex: 1;
 }
 
-/* Used for loading and error messages */
+/* Generic Fallback States */
 .status-message {
   font-size: 16px;
-  padding: 16px;
+  padding: 24px;
   text-align: center;
+  font-weight: 500;
 }
 
-/* Error messages get a red color */
 .status-message.error {
-  color: #cc0000;
+  color: #e53e3e;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Global Skeleton Shimmer Animation ── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #edf2f7 25%, #e2e8f0 50%, #edf2f7 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: 4px;
+}
+
+/* Mobile Breakpoints */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
 }

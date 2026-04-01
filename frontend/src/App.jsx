@@ -5,12 +5,7 @@ import FileGrid from "./components/FileGrid/FileGrid";
 import FileModal from "./components/FileModal/FileModal";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
-/**
- * Pure Presentation Shell Component
- * Logic is abstracted to the custom `useDirectory` hook.
- */
 function App() {
-  // Extract state properties and callback methods from custom architectural hook
   const {
     currentDirectoryPath,
     directoryItems,
@@ -18,19 +13,12 @@ function App() {
     error,
     onNavigateToDirectory,
     onDownloadRequested,
+    previewFile,
+    onFilePreview,
+    closeFilePreview
   } = useDirectory();
 
-  // Pure UI viewing states remain directly in the presentation component
-  const [previewFile, setPreviewFile] = useState(null);
   const [viewMode, setViewMode] = useState("grid");
-
-  const onPreviewFile = useCallback((file) => {
-    setPreviewFile(file);
-  }, []);
-
-  const closeFilePreview = useCallback(() => {
-    setPreviewFile(null);
-  }, []);
 
   const onToggleViewMode = useCallback((newMode) => {
     setViewMode(newMode);
@@ -47,30 +35,19 @@ function App() {
         />
 
         <main className="main-content">
-          {loading && (
-            <div className="status-message loading">
-              ⏳ Loading directory contents...
-            </div>
-          )}
-
           {error && (
             <div className="status-message error">
               ⚠️ {error}
             </div>
           )}
 
-          {!loading && !error && directoryItems.length === 0 && (
-            <div className="status-message empty">
-              📂 This directory is empty.
-            </div>
-          )}
-
-          {!loading && !error && directoryItems.length > 0 && (
+          {!error && (
             <FileGrid
               items={directoryItems}
               viewMode={viewMode}
+              loading={loading} /* Delegating skeleton state logic strictly directly to Grid Layer */
               onDirectoryNavigate={onNavigateToDirectory}
-              onFilePreview={onPreviewFile}
+              onFilePreview={onFilePreview}
               onFileDownload={onDownloadRequested}
             />
           )}

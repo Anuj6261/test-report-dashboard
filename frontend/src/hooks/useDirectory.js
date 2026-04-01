@@ -13,6 +13,9 @@ export function useDirectory() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Modal UI state moved here to drastically simplify App.jsx layout
+  const [previewFile, setPreviewFile] = useState(null);
+
   useEffect(() => {
     let isMounted = true; // Prevents memory leak updates on unmounted component
 
@@ -53,6 +56,14 @@ export function useDirectory() {
     initiateFileDownload(path);
   }, []);
 
+  const onFilePreview = useCallback((file) => {
+    setPreviewFile(file);
+  }, []);
+
+  const closeFilePreview = useCallback(() => {
+    setPreviewFile(null);
+  }, []);
+
   return {
     currentDirectoryPath,
     directoryItems,
@@ -60,5 +71,8 @@ export function useDirectory() {
     error,
     onNavigateToDirectory,
     onDownloadRequested,
+    previewFile,
+    onFilePreview,
+    closeFilePreview
   };
 }

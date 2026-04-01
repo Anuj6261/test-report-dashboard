@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { fetchFileContent } from "../../services/apiService";
 import { formatFileSize } from "../../utils/helpers";
+import { FileText } from "lucide-react";
 import "./FileModal.css";
 
-const MAX_CONTENT_SIZE = 5 * 1024 * 1024; // 5MB client-side limit
+const MAX_CONTENT_SIZE = 5 * 1024 * 1024; // 5MB limit
 
 function FileModal({ file, onClose }) {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Load file content when modal opens or file changes
   useEffect(() => {
     let isMounted = true;
 
@@ -25,7 +25,7 @@ function FileModal({ file, onClose }) {
         }
 
         const text = await fetchFileContent(file.path);
-        if (!isMounted) return; // Prevent memory leak
+        if (!isMounted) return;
 
         if (!text || typeof text !== "string") {
           throw new Error("The file appears to be empty or contains unsupported data.");
@@ -39,7 +39,7 @@ function FileModal({ file, onClose }) {
 
         setContent(text);
       } catch (err) {
-        if (!isMounted) return; // Prevent memory leak
+        if (!isMounted) return;
         console.error("[FileModal] Error loading file:", err);
         setError(err.message || "An unexpected error occurred while loading the file.");
       } finally {
@@ -50,11 +50,10 @@ function FileModal({ file, onClose }) {
     loadFile();
 
     return () => {
-      isMounted = false; // Cleanup when modal is closed
+      isMounted = false;
     };
   }, [file?.path]);
 
-  // Close modal on Escape key
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "Escape") onClose();
@@ -66,18 +65,18 @@ function FileModal({ file, onClose }) {
 
   if (!file) return null;
 
-  // Format metadata directly — no need to memoize trivial computations
   const sizeDisplay = formatFileSize(file.size);
-  const dateDisplay = file.modified
-    ? new Date(file.modified).toLocaleString()
-    : "—";
+  const dateDisplay = file.modified ? new Date(file.modified).toLocaleString() : "—";
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         {/* HEADER */}
         <div className="modal-header">
-          <span className="modal-filename">📄 {file.name}</span>
+          <span className="modal-filename" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FileText size={20} />
+            {file.name}
+          </span>
           <button className="modal-close-btn" onClick={onClose} title="Close (Esc)">
             ✕
           </button>
@@ -85,21 +84,10 @@ function FileModal({ file, onClose }) {
 
         {/* BODY */}
         <div className="modal-body">
-          {loading && (
-            <p className="status-message loading">⏳ Loading file content...</p>
-          )}
-
-          {error && (
-            <p className="status-message error">⚠️ {error}</p>
-          )}
-
-          {!loading && !error && content && (
-            <pre className="file-content">{content}</pre>
-          )}
-
-          {!loading && !error && !content && (
-            <p className="status-message empty">📄 File is empty</p>
-          )}
+          {loading && <p className="status-message loading">⏳ Loading file content...</p>}
+          {error && <p className="status-message error">⚠️ {error}</p>}
+          {!loading && !error && content && <pre className="file-content">{content}</pre>}
+          {!loading && !error && !content && <p className="status-message empty">📄 File is empty</p>}
         </div>
 
         {/* FOOTER */}
