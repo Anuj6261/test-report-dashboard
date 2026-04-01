@@ -150,11 +150,13 @@ const generateCoverageHtml = (jobId) => `<!DOCTYPE html>
 
 async function seedData() {
   try {
-    await fs.access(DATA_ROOT);
-    console.log("[seed] /data already exists, skipping seed.");
-    return;
+    const contents = await fs.readdir(DATA_ROOT);
+    if (contents.length > 0) {
+      console.log("[seed] /data already contains files, skipping seed.");
+      return;
+    }
   } catch (err) {
-    // Doesn't exist, proceed
+    // Doesn't exist or isn't a directory, proceed
   }
 
   console.log("[seed] Creating fabricated test pipeline data...");
