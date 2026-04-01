@@ -1,0 +1,95 @@
+/* ── TopBar ── */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* breadcrumbs on left, button on right */
+  padding: 12px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  position: sticky;   /* Stays at top even when you scroll down */
+  top: 0;
+  z-index: 10;        /* Sits above other content */
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Back button — only visible when not at root */
+.back-btn {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #555;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.back-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+  border-color: #ccc;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;    /* Wraps to next line if path is very long */
+  gap: 2px;
+  font-size: 14px;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-separator {
+  color: #999;
+  margin: 0 2px;
+}
+
+/* Clickable breadcrumb parts */
+.breadcrumb-link {
+  background: none;       /* No button background */
+  border: none;           /* No button border */
+  cursor: pointer;        /* Shows hand cursor on hover */
+  color: #0066cc;
+  font-size: 14px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.breadcrumb-link:hover {
+  background-color: #e8f0fe;
+  text-decoration: underline;
+}
+
+/* The last breadcrumb (current location) — not clickable */
+.breadcrumb-current {
+  font-weight: 600;
+  color: #333;
+  padding: 2px 4px;
+}
+
+/* The Grid/List toggle button */
+.view-toggle-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;  /* Prevents the button text from wrapping */
+}
+
+.view-toggle-btn:hover {
+  background-color: #e0e0e0;
+}

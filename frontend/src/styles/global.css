@@ -1,0 +1,37 @@
+/* Reset some default browser styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* The full-page wrapper */
+.app-container {
+  display: flex;
+  flex-direction: column;   /* Stack TopBar on top, main content below */
+  min-height: 100vh;        /* Fill the full browser window height */
+}
+
+/* The area below the TopBar */
+.main-content {
+  padding: 24px;
+  flex: 1;                  /* Take up all remaining vertical space */
+}
+
+/* Used for loading and error messages */
+.status-message {
+  font-size: 16px;
+  padding: 16px;
+  text-align: center;
+}
+
+/* Error messages get a red color */
+.status-message.error {
+  color: #cc0000;
+}
