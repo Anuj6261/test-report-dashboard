@@ -14,26 +14,35 @@ export function useDirectory() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true; // Prevents memory leak updates on unmounted component
+
     async function fetchDirectoryNetworkCall() {
       setLoading(true);
       setError(null);
 
       try {
         const data = await fetchDirectoryContents(currentDirectoryPath);
+        if (!isMounted) return; // Stop if component unmounted while fetching
+
         if (!data || !data.items) {
           throw new Error("The server returned an invalid or unreadable format while mapping the directory.");
         }
         setDirectoryItems(data.items);
       } catch (err) {
+        if (!isMounted) return; // Stop if component unmounted
         console.error("[useDirectory] fetchDirectoryNetworkCall error:", err);
         setError(err.message || "Failed to load directory.");
         setDirectoryItems([]);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchDirectoryNetworkCall();
+
+    return () => {
+      isMounted = false; // Cleanup function fires on unmount
+    };
   }, [currentDirectoryPath]);
 
   const onNavigateToDirectory = useCallback((folderPath) => {

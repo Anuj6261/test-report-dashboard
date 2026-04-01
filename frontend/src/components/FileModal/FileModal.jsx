@@ -12,6 +12,8 @@ function FileModal({ file, onClose }) {
 
   // Load file content when modal opens or file changes
   useEffect(() => {
+    let isMounted = true;
+
     async function loadFile() {
       setLoading(true);
       setError(null);
@@ -23,6 +25,7 @@ function FileModal({ file, onClose }) {
         }
 
         const text = await fetchFileContent(file.path);
+        if (!isMounted) return; // Prevent memory leak
 
         if (!text || typeof text !== "string") {
           throw new Error("The file appears to be empty or contains unsupported data.");
@@ -36,14 +39,19 @@ function FileModal({ file, onClose }) {
 
         setContent(text);
       } catch (err) {
+        if (!isMounted) return; // Prevent memory leak
         console.error("[FileModal] Error loading file:", err);
         setError(err.message || "An unexpected error occurred while loading the file.");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
 
     loadFile();
+
+    return () => {
+      isMounted = false; // Cleanup when modal is closed
+    };
   }, [file?.path]);
 
   // Close modal on Escape key
