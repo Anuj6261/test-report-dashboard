@@ -150,13 +150,13 @@ const generateCoverageHtml = (jobId) => `<!DOCTYPE html>
 
 async function seedData() {
   try {
-    const contents = await fs.readdir(DATA_ROOT);
-    if (contents.length > 0) {
-      console.log("[seed] /data already contains files, skipping seed.");
+    const stat = await fs.stat(path.join(DATA_ROOT, "test_pipeline_results"));
+    if (stat.isDirectory()) {
+      console.log("[seed] Fabricated data already natively detected, skipping seed.");
       return;
     }
   } catch (err) {
-    // Doesn't exist or isn't a directory, proceed
+    // Pipeline directory is missing, meaning the volume is fundamentally empty. Proceed with full injection.
   }
 
   console.log("[seed] Creating fabricated test pipeline data...");
