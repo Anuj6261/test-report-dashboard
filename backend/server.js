@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+const securityHeaders = require("./middlewares/security");
+const apiLimiter = require("./middlewares/rateLimiter");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const { seedData, DATA_ROOT } = require("./seed");
@@ -12,17 +12,13 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Security Middleware 
-app.use(helmet());     // Sets secure HTTP headers
+app.use(securityHeaders);     // Sets secure HTTP headers
 app.use(cors({ origin: process.env.CORS_ORIGIN }));
-app.use(express.json());
-
 // Rate limiting — prevents abuse
-const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || "900000", 10), // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || "200", 10),
-  message: { error: "Too many requests, please try again later." },
-});
-app.use("/api/", limiter);
+app.use("/api/", apiLimiter);
+
+// Body parser
+app.use(express.json());
 
 // Routes 
 app.use("/api", apiRoutes);
@@ -61,7 +57,7 @@ app.use((err, req, res, next) => {
 });
 
 // Bootstrap async server
-async function startServer() {
+const startServer = async () => {
   try {
     await seedData();
     app.listen(PORT, () => {
