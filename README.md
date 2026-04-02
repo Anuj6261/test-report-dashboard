@@ -66,12 +66,25 @@ VITE_API_MAX_RETRIES=3
 VITE_API_RETRY_DELAY_MS=1000
 ```
 
-### 🐳 Running via Docker (Production Recommended)
-To build and start the entire stack natively with Nginx proxying and automatic isolated networking:
+### 🐳 Running via Docker
+To build and start the entire stack natively with Nginx proxying and automatic isolated networking using Docker Desktop:
 ```bash
-docker-compose up --build -d
+docker compose up --build -d
 ```
 *The dashboard will effortlessly map and connect to `http://localhost/`.*
+
+#### Running Pre-built Images from Docker Hub
+If you want to run the pre-built images directly from Docker Hub without building the code locally, you can pull and run them individually:
+
+**Backend API:**
+```bash
+docker run -d -p 4000:4000 --name dashboard-backend anuj6261/test-report-dashboard-backend:latest
+```
+
+**Frontend React UI:**
+```bash
+docker run -d -p 80:80 --name dashboard-frontend anuj6261/test-report-dashboard-frontend:latest
+```
 
 ### 💻 Running Locally (Development)
 1. **Backend:**

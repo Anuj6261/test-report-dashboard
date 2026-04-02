@@ -6,6 +6,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME:-anuj6261}/test-report-dashboard-backend:latest
     container_name: test-report-dashboard-backend
     ports:
       - "4000:4000"
@@ -28,6 +29,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME:-anuj6261}/test-report-dashboard-frontend:latest
     container_name: test-report-dashboard-frontend
     ports:
       - "80:80"
