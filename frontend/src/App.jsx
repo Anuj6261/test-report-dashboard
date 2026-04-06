@@ -11,13 +11,13 @@ function App() {
   const [directoryItems, setDirectoryItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const [previewFile, setPreviewFile] = useState(null);
   const [viewMode, setViewMode] = useState("grid");
 
   // ── Lifecycle & Data Fetching ──
   useEffect(() => {
-    let isMounted = true; 
+    let isMounted = true;
 
     async function fetchDirectory() {
       setLoading(true);
@@ -25,8 +25,8 @@ function App() {
 
       try {
         const data = await getDirectoryContents(currentDirectoryPath);
-        if (!isMounted) return; 
-        
+        if (!isMounted) return;
+
         if (!data || !data.items) {
           throw new Error("Invalid format returned from server.");
         }

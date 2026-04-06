@@ -1,20 +1,20 @@
-# 📊 Test Report Dashboard
+# Test Report Dashboard
 
 A professional, full-stack web application designed for browsing, previewing, and downloading test reports and automation pipeline artifacts. 
 
 ---
 
-## ✨ 1. Key Features
+## 1. Key Features
 
-- **📂 Dynamic File System Explorer:** Navigate deeply nested server directories seamlessly without full-page reloads.
-- **🚀 O(1) Memory Streaming:** Download entire massive directories as `.zip` payloads generated on the fly using `archiver`. No temporary files are ever written to the disk, preserving server disk I/O and RAM.
-- **🛡️ Bulletproof Security:** Implements a mathematical Traversal Path lock (`startsWith` checking with path separators) to prevent malicious hackers from breaking out of the designated data folder.
-- **📜 Interactive Documentation:** Integrated Swagger UI self-documents the API endpoints directly from the source code.
-- **⚡ Blazing Fast Architecture:** The frontend uses Vite/esbuild for instant Hot Module Replacement (HMR) and Nginx reverse proxying for lightning-fast localized static asset delivery.
+- **Dynamic File System Explorer:** Navigate deeply nested server directories seamlessly without full-page reloads.
+- **O(1) Memory Streaming:** Download entire massive directories as `.zip` payloads generated on the fly using `archiver`. No temporary files are ever written to the disk, preserving server disk I/O and RAM.
+- **Bulletproof Security:** Implements a mathematical Traversal Path lock (`startsWith` checking with path separators) to prevent malicious hackers from breaking out of the designated data folder.
+- **Interactive Documentation:** Integrated Swagger UI self-documents the API endpoints directly from the source code.
+- **Blazing Fast Architecture:** The frontend uses Vite/esbuild for instant Hot Module Replacement (HMR) and Nginx reverse proxying for lightning-fast localized static asset delivery.
 
 ---
 
-## 🏗️ 2. Project Architecture & Design Rationale
+## 2. Project Architecture & Design Rationale
 
 The architecture of this application strictly prioritizes maintainability, security, and performance.
 
@@ -26,7 +26,7 @@ The architecture of this application strictly prioritizes maintainability, secur
 
 ---
 
-## 🛡️ 3. Security Implementations
+## 3. Security Implementations
 
 Security is woven into every layer of this application to make it enterprise-ready:
 
@@ -37,7 +37,7 @@ Security is woven into every layer of this application to make it enterprise-rea
 
 ---
 
-## ⚙️ 4. Setup Instructions
+## 4. Setup Instructions
 
 The application can be run seamlessly via Docker (recommended) or locally using Node.js.
 
@@ -66,7 +66,7 @@ VITE_API_MAX_RETRIES=3
 VITE_API_RETRY_DELAY_MS=1000
 ```
 
-### 🐳 Running via Docker
+###   Running via Docker
 To build and start the entire stack natively with Nginx proxying and automatic isolated networking using Docker Desktop:
 ```bash
 docker compose up --build -d
@@ -86,7 +86,7 @@ docker run -d -p 4000:4000 --name dashboard-backend anuj6261/test-report-dashboa
 docker run -d -p 80:80 --name dashboard-frontend anuj6261/test-report-dashboard-frontend:latest
 ```
 
-### 💻 Running Locally (Development)
+### Running Locally (Development)
 1. **Backend:**
    ```bash
    cd backend
@@ -105,7 +105,7 @@ docker run -d -p 80:80 --name dashboard-frontend anuj6261/test-report-dashboard-
 
 ---
 
-## 📡 5. API Documentation
+##  5. API Documentation
 
 The backend provides a complete, interactive OpenAPI 3.0 (Swagger) specification.
 
@@ -122,7 +122,7 @@ All endpoints support the `?path=` query parameter (e.g. `?path=/automation_logs
 
 ---
 
-## 🤖 6. AI Usage Policy
+## 6. AI Usage Policy
 
 This project was developed with the assistance of powerful LLM AI tools to accelerate robust scaffolding and ensure industry-standard best practices.
 
